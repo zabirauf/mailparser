@@ -1,0 +1,32 @@
+<html>
+<head>
+    <script src="../dist/mailparser.js" charset="UTF-8"></script>
+    <script>
+        window.onload = () => {
+            const inputElement = document.getElementById("filepicker");
+            inputElement.addEventListener("change", handleFiles, false);
+            function handleFiles(evt) {
+                if (evt.target.files.length > 0) {
+                    const file = evt.target.files[0];
+                    file.arrayBuffer().then(buffer => {
+                        buffer._isBuffer = true;
+                        window.mailParser.simpleParser(buffer).then(parsed => {
+                            console.log(parsed);
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                    });
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>
+        EML Parser
+    </h1>
+    <input type="file"
+       id="filepicker" name="filepicker"
+       accept="*">
+</body>
+</html>
